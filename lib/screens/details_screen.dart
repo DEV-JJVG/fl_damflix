@@ -1,3 +1,4 @@
+import 'package:fl_damflix/widgets/cast_carrousel.dart';
 import 'package:flutter/material.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -9,7 +10,13 @@ class DetailsScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           _CustomAppBar(),
-          SliverList(delegate: SliverChildListDelegate([])),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              _InfoMovie(),
+              _Overview(),
+              CastCarrousel(),
+            ]),
+          ),
         ],
       ),
     );
@@ -74,8 +81,53 @@ class _InfoMovie extends StatelessWidget {
               height: 150,
             ),
           ),
-          Column(children: [Text("Vamos por aquí")]),
+          SizedBox(width: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "movie.title",
+                style: Theme.of(context).textTheme.headlineMedium,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+              Text(
+                "movie.year",
+                style: Theme.of(context).textTheme.headlineSmall,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+              Row(
+                children: [
+                  Icon(Icons.star_half, size: 30, color: Colors.orangeAccent),
+                  SizedBox(width: 5),
+                  Text(
+                    "movie.rate",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class _Overview extends StatelessWidget {
+  const _Overview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: Text(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }
