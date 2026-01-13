@@ -1,8 +1,11 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:fl_damflix/models/now_playing_response.dart';
 import 'package:flutter/material.dart';
 
 class CardSwiper extends StatelessWidget {
-  const CardSwiper({super.key});
+  const CardSwiper({super.key, required this.movies});
+
+  final List<Result> movies;
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +16,13 @@ class CardSwiper extends StatelessWidget {
       //color: Colors.yellow,
       padding: EdgeInsets.all(25),
       child: Swiper(
-        itemCount: 10,
+        itemCount: movies.length,
         layout: SwiperLayout.STACK,
         itemWidth: size.width * 0.6,
         itemHeight: size.height * 0.9,
         itemBuilder: (context, index) {
+          final movie = movies[index];
+
           return GestureDetector(
             onTap: () => Navigator.pushNamed(
               context,
@@ -28,9 +33,7 @@ class CardSwiper extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: FadeInImage(
                 placeholder: AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(
-                  'https://upload.wikimedia.org/wikipedia/en/1/18/Titanic_%281997_film%29_poster.png',
-                ),
+                image: NetworkImage('${movie.fullPosterPath}'),
                 fit: BoxFit.cover,
               ),
             ),

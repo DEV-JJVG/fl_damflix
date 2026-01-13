@@ -79,6 +79,13 @@ class Result {
   double voteAverage;
   int voteCount;
 
+  get fullPosterPath {
+    if (this.posterPath != null)
+      return 'https://image.tmdb.org/t/p/w500${this.posterPath}';
+    else
+      return 'https://ih1.redbubble.net/image.4905811472.8675/st,extra_large,507x507-pad,600x600,f8f8f8.jpg';
+  }
+
   Result({
     required this.adult,
     required this.backdropPath,
