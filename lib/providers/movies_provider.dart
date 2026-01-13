@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,5 +18,7 @@ class MoviesProvider extends ChangeNotifier {
       'page': '1',
     });
     var response = await http.get(url);
+    final Map<String, dynamic> decodedData = json.decode(response.body);
+    print(decodedData['results'][0]);
   }
 }
