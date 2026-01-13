@@ -1,7 +1,10 @@
+import 'package:fl_damflix/models/popular_response.dart';
 import 'package:flutter/material.dart';
 
 class MovieSlider extends StatelessWidget {
-  const MovieSlider({Key? key}) : super(key: key);
+  const MovieSlider({Key? key, required this.movies}) : super(key: key);
+
+  final List<ResultPopular> movies;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +18,17 @@ class MovieSlider extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Text(
-              "Favoritas",
+              "Populares",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 20,
+              itemCount: movies.length,
               itemBuilder: (context, index) {
-                return _MoviePoster();
+                final movie = movies[index];
+                return _MoviePoster(movie);
               },
             ),
           ),
@@ -35,7 +39,9 @@ class MovieSlider extends StatelessWidget {
 }
 
 class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({super.key});
+  const _MoviePoster(this.movie, {super.key});
+
+  final ResultPopular movie;
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +61,7 @@ class _MoviePoster extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: FadeInImage(
                 placeholder: AssetImage('/assets/no-image.jpg'),
-                image: NetworkImage(
-                  'https://pics.filmaffinity.com/the_godfather-488102675-mmed.jpg',
-                ),
+                image: NetworkImage('${movie.fullPosterPath}'),
                 width: 130,
                 height: 190,
                 fit: BoxFit.cover,
@@ -66,7 +70,7 @@ class _MoviePoster extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Text(
-            "The Godfather",
+            "${movie.title}",
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

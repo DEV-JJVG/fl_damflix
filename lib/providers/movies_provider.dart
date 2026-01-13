@@ -9,6 +9,7 @@ class MoviesProvider extends ChangeNotifier {
   String _baseUrl = 'api.themoviedb.org';
   String _language = 'es-ES';
   List<Result> onDisplayMovies = [];
+  List<ResultPopular> onDisplayPopularMovies = [];
   MoviesProvider() {
     print("MoviesProvider inicializado");
     this.getOnDisplayMovies();

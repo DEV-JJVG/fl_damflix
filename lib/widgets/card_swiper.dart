@@ -10,36 +10,45 @@ class CardSwiper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Container(
-      width: double.infinity,
-      height: size.height * 0.5,
-      //color: Colors.yellow,
-      padding: EdgeInsets.all(25),
-      child: Swiper(
-        itemCount: movies.length,
-        layout: SwiperLayout.STACK,
-        itemWidth: size.width * 0.6,
-        itemHeight: size.height * 0.9,
-        itemBuilder: (context, index) {
-          final movie = movies[index];
 
-          return GestureDetector(
-            onTap: () => Navigator.pushNamed(
-              context,
-              "details",
-              arguments: 'movie-instance',
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: FadeInImage(
-                placeholder: AssetImage('assets/no-image.jpg'),
-                image: NetworkImage('${movie.fullPosterPath}'),
-                fit: BoxFit.cover,
+    if (this.movies.length == 0) {
+      return Container(
+        width: double.infinity,
+        height: size.height * 0.5,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    } else {
+      return Container(
+        width: double.infinity,
+        height: size.height * 0.5,
+        //color: Colors.yellow,
+        padding: EdgeInsets.all(25),
+        child: Swiper(
+          itemCount: movies.length,
+          layout: SwiperLayout.STACK,
+          itemWidth: size.width * 0.6,
+          itemHeight: size.height * 0.9,
+          itemBuilder: (context, index) {
+            final movie = movies[index];
+
+            return GestureDetector(
+              onTap: () => Navigator.pushNamed(
+                context,
+                "details",
+                arguments: 'movie-instance',
               ),
-            ),
-          );
-        },
-      ),
-    );
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/no-image.jpg'),
+                  image: NetworkImage('${movie.fullPosterPath}'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    }
   }
 }
