@@ -51,4 +51,16 @@ class MoviesProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  getCredits(int movieId) async {
+    var url = Uri.https(_baseUrl, '/3/movie/$movieId/credits', {
+      'api_key': _apiKey,
+      'language': _languaje,
+    });
+    var response = await http.get(url);
+
+    final creditsResponse = CreditsResponse.fromJson(response.body);
+
+    return creditsResponse.cast;
+  }
 }
