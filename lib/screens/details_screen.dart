@@ -1,3 +1,4 @@
+import 'package:fl_damflix/models/models.dart';
 import 'package:fl_damflix/widgets/cast_carrousel.dart';
 import 'package:flutter/material.dart';
 
@@ -6,14 +7,16 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Result movie = ModalRoute.of(context)!.settings.arguments as Result;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _CustomAppBar(),
+          _CustomAppBar(movie: movie),
           SliverList(
             delegate: SliverChildListDelegate([
-              _InfoMovie(),
-              _Overview(),
+              _InfoMovie(movie: movie),
+              _Overview(movie: movie),
               CastCarrousel(),
             ]),
           ),
@@ -24,7 +27,8 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget {
-  const _CustomAppBar({super.key});
+  final Result movie;
+  const _CustomAppBar({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class _CustomAppBar extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           color: Colors.white54,
           child: Text(
-            "Titulo pelicula",
+            " ${movie.title} ",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
@@ -51,9 +55,7 @@ class _CustomAppBar extends StatelessWidget {
         centerTitle: true,
         background: FadeInImage(
           placeholder: AssetImage('assets/loading.gif'),
-          image: NetworkImage(
-            'https://storage.googleapis.com/pod_public/1300/262788.jpg',
-          ),
+          image: NetworkImage('${movie.fullBackDropPath}'),
           fit: BoxFit.cover,
         ),
       ),
@@ -62,7 +64,8 @@ class _CustomAppBar extends StatelessWidget {
 }
 
 class _InfoMovie extends StatelessWidget {
-  const _InfoMovie({super.key});
+  final Result movie;
+  const _InfoMovie({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -75,41 +78,42 @@ class _InfoMovie extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(
-                'https://pics.filmaffinity.com/the_godfather-488102675-mmed.jpg',
-              ),
+              image: NetworkImage('${movie.fullPosterPath}'),
               height: 150,
             ),
           ),
           SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "movie.title",
-                style: Theme.of(context).textTheme.headlineMedium,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-              Text(
-                "movie.year",
-                style: Theme.of(context).textTheme.headlineSmall,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              Row(
-                children: [
-                  Icon(Icons.star_half, size: 30, color: Colors.orangeAccent),
-                  SizedBox(width: 5),
-                  Text(
-                    "movie.rate",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ],
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${movie.title}",
+                  style: Theme.of(context).textTheme.headlineMedium,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+                Text(
+                  "${movie.releaseDate.year}",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+
+                Row(
+                  children: [
+                    Icon(Icons.star, size: 30, color: Colors.orangeAccent),
+                    SizedBox(width: 5),
+                    Text(
+                      "${movie.voteAverage}",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -118,14 +122,15 @@ class _InfoMovie extends StatelessWidget {
 }
 
 class _Overview extends StatelessWidget {
-  const _Overview({super.key});
+  final Result movie;
+  const _Overview({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Text(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+        "${movie.overview}",
         textAlign: TextAlign.justify,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
