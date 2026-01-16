@@ -12,7 +12,6 @@ class CastCarrousel extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 200,
-      color: Colors.yellow,
       child: ListView.builder(
         itemCount: actorsProvider.onDisplayActors.length,
         scrollDirection: Axis.horizontal,
@@ -33,7 +32,6 @@ class _CastCard extends StatelessWidget {
       width: 80,
       height: 100,
       margin: EdgeInsets.all(5),
-      color: Colors.blue,
       child: Column(
         children: [
           ClipRRect(
