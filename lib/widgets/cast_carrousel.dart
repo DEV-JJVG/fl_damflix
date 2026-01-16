@@ -1,21 +1,23 @@
 import 'package:fl_damflix/models/models.dart';
+import 'package:fl_damflix/providers/actors_provider.dart';
 import 'package:flutter/material.dart';
 
 class CastCarrousel extends StatelessWidget {
-  const CastCarrousel({Key? key}) : super(key: key);
+  const CastCarrousel({Key? key, required this.actorsProvider})
+    : super(key: key);
+  final ActorsProvider actorsProvider;
 
   @override
   Widget build(BuildContext context) {
-    final Cast cast = ModalRoute.of(context)!.settings.arguments as Cast;
     return Container(
       width: double.infinity,
       height: 200,
       color: Colors.yellow,
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: actorsProvider.onDisplayActors.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
-          return _CastCard(cast: cast);
+          return _CastCard(cast: actorsProvider.onDisplayActors[index]);
         },
       ),
     );
@@ -38,14 +40,14 @@ class _CastCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage('${cast.fullPosterPath}'),
+              image: NetworkImage(cast.fullPosterPath),
               height: 100,
               width: 80,
               fit: BoxFit.cover,
             ),
           ),
           Text(
-            "${cast.name}",
+            cast.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

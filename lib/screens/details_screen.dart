@@ -1,6 +1,8 @@
 import 'package:fl_damflix/models/models.dart';
+import 'package:fl_damflix/providers/actors_provider.dart';
 import 'package:fl_damflix/widgets/cast_carrousel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
@@ -8,7 +10,8 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Result movie = ModalRoute.of(context)!.settings.arguments as Result;
-
+    final actorsProvider = Provider.of<ActorsProvider>(context);
+    actorsProvider.getOnDisplayActors(movie.id);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -17,7 +20,7 @@ class DetailsScreen extends StatelessWidget {
             delegate: SliverChildListDelegate([
               _InfoMovie(movie: movie),
               _Overview(movie: movie),
-              CastCarrousel(),
+              CastCarrousel(actorsProvider: actorsProvider),
             ]),
           ),
         ],
@@ -43,7 +46,7 @@ class _CustomAppBar extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           color: Colors.white54,
           child: Text(
-            " ${movie.title} ",
+            movie.title,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
@@ -55,7 +58,7 @@ class _CustomAppBar extends StatelessWidget {
         centerTitle: true,
         background: FadeInImage(
           placeholder: AssetImage('assets/loading.gif'),
-          image: NetworkImage('${movie.fullBackDropPath}'),
+          image: NetworkImage(movie.fullBackDropPath),
           fit: BoxFit.cover,
         ),
       ),
@@ -78,7 +81,7 @@ class _InfoMovie extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage('${movie.fullPosterPath}'),
+              image: NetworkImage(movie.fullPosterPath),
               height: 150,
             ),
           ),
@@ -88,16 +91,16 @@ class _InfoMovie extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${movie.title}",
+                  movie.title,
                   style: Theme.of(context).textTheme.headlineMedium,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
                 Text(
-                  "${movie.releaseDate.year}",
+                  movie.releaseDate.year.toString(),
                   style: Theme.of(context).textTheme.headlineSmall,
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
+                  maxLines: 1,
                 ),
 
                 Row(
@@ -105,7 +108,7 @@ class _InfoMovie extends StatelessWidget {
                     Icon(Icons.star, size: 30, color: Colors.orangeAccent),
                     SizedBox(width: 5),
                     Text(
-                      "${movie.voteAverage}",
+                      movie.voteAverage.toString(),
                       style: Theme.of(context).textTheme.bodyMedium,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -130,7 +133,7 @@ class _Overview extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Text(
-        "${movie.overview}",
+        movie.overview,
         textAlign: TextAlign.justify,
         style: Theme.of(context).textTheme.bodyMedium,
       ),

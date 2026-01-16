@@ -1,3 +1,4 @@
+import 'package:fl_damflix/providers/actors_provider.dart';
 import 'package:fl_damflix/providers/movies_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,10 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => MoviesProvider(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ActorsProvider(),
           lazy: false,
         ),
       ],

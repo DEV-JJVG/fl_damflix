@@ -38,8 +38,9 @@ class Cast {
   String? character;
   String creditId;
   int? order;
-  Department? department;
+  //Department? department;
   String? job;
+
   get fullPosterPath {
     if (this.profilePath != null)
       return 'https://image.tmdb.org/t/p/w500${this.profilePath}';
@@ -60,7 +61,7 @@ class Cast {
     this.character,
     required this.creditId,
     this.order,
-    this.department,
+    //this.department,
     this.job,
   });
 
@@ -81,7 +82,7 @@ class Cast {
     character: json["character"],
     creditId: json["credit_id"],
     order: json["order"],
-    department: departmentValues.map[json["department"]]!,
+    //department: departmentValues.map[json["department"]]!,
     job: json["job"],
   );
 
@@ -98,7 +99,7 @@ class Cast {
     "character": character,
     "credit_id": creditId,
     "order": order,
-    "department": departmentValues.reverse[department],
+    //"department": departmentValues.reverse[department],
     "job": job,
   };
 }
